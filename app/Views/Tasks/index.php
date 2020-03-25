@@ -2,7 +2,7 @@
 <div class="row col-md-12 centered">
     <table class="table table-striped custab">
         <thead>
-        <a href="/MVC_todo/tasks/create/" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new task</a>
+        <a href="/Dat-mvc/tasks/create/" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new task</a>
         <tr>
             <th>ID</th>
             <th>Task</th>

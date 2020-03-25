@@ -11,11 +11,17 @@ namespace App\Core;
             $this->vars = array_merge($this->vars, $d);
         }
 
+     
         function render($filename)
         {
             extract($this->vars);
             ob_start();
             require(ROOT . "app/Views/" . ucfirst(str_replace('Controller', '', substr(strrchr(get_class($this), "\\"), 1))) . '/' . $filename . '.php');
+            //strrchr(get_class($this), "\\") phan tu cuoi sau dau \ ... kq: \tasksController
+            //substr(strrchr(get_class($this), "\\"), 1) loai bo dau \ .. kq: tasksController
+            //str_replace('Controller', '', substr(strrchr(get_class($this), "\\"), 1)) thay the 'Controller' = '' ... kq: tasks
+            //ucfirst : viet hoa chu cai dau ... kq : Tasks
+
             $content_for_layout = ob_get_clean();
 
             if ($this->layout == false)
