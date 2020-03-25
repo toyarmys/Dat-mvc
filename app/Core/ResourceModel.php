@@ -21,21 +21,21 @@ class ResourceModel implements ResourceModelInterface {
 
     public function add($model)
     {
-        $setCol = '';
-        $setVal = '';
+        $Column = '';
+        $Value = '';
         foreach ($model as $col => $val){
-            if ($setCol) {
-                $setCol .= ",";
+            if ($Column) {
+                $Column .= ",";
             }
-            $setCol .=$col;
-            if ($setVal) {
-                $setVal .= ",";
+            $Column .=$col;
+            if ($Value) {
+                $Value .= ",";
             }
-            $setVal .=":".$col;
+            $Value .=":".$col;
         }
         //title, description, created_at, updated_at
         //:title, :description, :created_at, :updated_at
-        $sql = "INSERT INTO ".$this->table." (".$setCol.") VALUES (".$setVal.")";
+        $sql = "INSERT INTO ".$this->table." (".$Column.") VALUES (".$Value.")";
 
         $req = Database::getBdd()->prepare($sql);
 
@@ -60,15 +60,15 @@ class ResourceModel implements ResourceModelInterface {
 
     public function update($model, $id) // ['title' => '', 'de' => '' ]
     {
-        $set = '';
+        $update = '';
         foreach ($model as $col => $val) {
-            if ($set) {
-                $set .= ",";
+            if ($update) {
+                $update .= ",";
             }
-            $set .= $col .'=:'. $col;
+            $update .= $col .'=:'. $col;
         }
         //title = :title, description = :description
-        $sql = "UPDATE " . $this->table. " SET ".$set." WHERE " . $this->id." = ". $id;
+        $sql = "UPDATE " . $this->table. " SET ".$update." WHERE " . $this->id." = ". $id;
 
         $req = Database::getBdd()->prepare($sql);
 
