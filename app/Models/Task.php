@@ -1,61 +1,57 @@
 <?php
 namespace App\Models;
-use App\Core\Model;
-use App\Config\Database;
 
-class Task extends Model
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="tasks")
+ */
+class Task
 {
-    public function create($title, $description)
+    /** 
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     */
+    protected $id;
+    /** 
+     * @ORM\Column(type="string") 
+     */
+    protected $title;
+    /** @ORM\Column(length=2000, nullable=true) */
+    protected $description;
+    /** @ORM\Column(type="datetime", nullable=true, columnDefinition="TIMESTAMP NULL") */
+    protected $created_at;
+    /** @ORM\Column(type="datetime", nullable=true, columnDefinition="TIMESTAMP NULL") */
+    protected $updated_at;
+    public function getId()
     {
-        $sql = "INSERT INTO tasks (title, description, created_at, updated_at) VALUES (:title, :description, :created_at, :updated_at)";
-
-        $req = Database::getBdd()->prepare($sql);
-
-        return $req->execute([
-            'title' => $title,
-            'description' => $description,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
-
-        ]);
+        return $this->id;
     }
 
-    public function showTask($id)
+    public function getTitle()
     {
-        $sql = "SELECT * FROM tasks WHERE id =" . $id;
-        $req = Database::getBdd()->prepare($sql);
-        $req->execute();
-        return $req->fetch();
+        return $this->title;
     }
 
-    public function showAllTasks()
+    public function setTitle($title)
     {
-        $sql = "SELECT * FROM tasks";
-        $req = Database::getBdd()->prepare($sql);
-        $req->execute();
-        return $req->fetchAll();
+        $this->title = $title;
     }
 
-    public function edit($id, $title, $description)
-    {
-        $sql = "UPDATE tasks SET title = :title, description = :description , updated_at = :updated_at WHERE id = :id";
-
-        $req = Database::getBdd()->prepare($sql);
-
-        return $req->execute([
-            'id' => $id,
-            'title' => $title,
-            'description' => $description,
-            'updated_at' => date('Y-m-d H:i:s')
-
-        ]);
+    public function getDescription(){
+        return $this->description;
     }
 
-    public function delete($id)
-    {
-        $sql = 'DELETE FROM tasks WHERE id = ?';
-        $req = Database::getBdd()->prepare($sql);
-        return $req->execute([$id]);
+    public function setDescription($description){
+        $this->description = $description;
     }
+
+    public function __construct()
+  {
+    $this->created_at = new \DateTime();
+    $this->updated_at = new \DateTime();
+  }
 }
 ?>

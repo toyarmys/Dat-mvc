@@ -7,7 +7,7 @@ class Router
     {
         $url = trim($url);
 
-        if ($url == "/mvc/")
+        if ($url == "/Dat-mvc/")
         {
             $request->controller = "tasks";
             $request->action = "index";
