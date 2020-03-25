@@ -22,13 +22,12 @@ class tasksController extends Controller
         if (isset($_POST["title"]))
         {
             require "../cli-config.php";
-            $task = new Tasks();
+            $task = new Task();
             $title = $_POST["title"];
             $description = $_POST["description"];
             $task->setTitle($title);
             $task->setDescription($description);
             $task->setCreated_at(date('Y-m-d H:i:s'));
-            $task->setUpdated_at();
             $entityManager->persist($task);
             if (!$entityManager->flush())
             {
@@ -41,14 +40,14 @@ class tasksController extends Controller
     function edit($id)
     {  
         require "../cli-config.php";
-        $task['task'] = $entityManager->find(Tasks::class, $id);
+        $task['task'] = $entityManager->find(Task::class, $id);
         //$task['task']  = (array)$task['task'] ;
         if (isset($_POST["title"]))
         {   
             $task['task']->setTitle($_POST["title"]);
             $task['task']->setDescription($_POST["description"]);
             //$task['task']->setCreated_at(date('Y-m-d H:i:s'));
-            $task['task']->setUpdated_at();
+            $task['task']->setUpdated_at(date('Y-m-d H:i:s'));
            
             if (!$entityManager->flush())
             {
@@ -63,7 +62,7 @@ class tasksController extends Controller
     {
         require "../cli-config.php";
 
-        $task = $entityManager->getReference(Tasks::class, $id);
+        $task = $entityManager->getReference(Task::class, $id);
         $entityManager->remove($task);
         if (!$entityManager->flush())
         {
